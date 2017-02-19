@@ -1,0 +1,14 @@
+This is a simple http server (only GET without parameters).
+
+Usage:
+  http_serv [-i ip] [-p port] [-r dir] [-l log] [-d daemon mode] [-h help]
+
+-i - ip of http server, mandatory parameter.
+-p - listen port of http server, mandatory parameter.
+-r - root directory. The absolute path to working directory of a http server. Mandatory parametr. 
+-l - log file, optional parametr.
+-d - daemon mode, optional parametr.
+-h - help
+
+Example:
+  http_serv -i 127.0.0.1 -p 8181 -r /path/to/http/root -d
