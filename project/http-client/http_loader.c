@@ -77,11 +77,18 @@ int main(int argc, char *argv[]) {
   printf("Source %s:%d\n", ip_buff, port);
 
   struct LoaderConnection *conn = create_tcp_connection(ip_buff, port);
-  conn->loader_start(conn);
+  if (!conn->loader_start(conn)) {
+      printf("Can't connect to %s:%d\n", ip_buff, port);
+      exit(EXIT_FAILURE);
+    }
 
   struct HTTPClient *http_client = create_http_client(conn);
-  struct RequestResult *result = http_client->load_resource(http_client, path, addr);
+  if (!http_client) {
+      printf("Can't create a http client\n");
+      exit(EXIT_FAILURE);
+    }
 
+  struct RequestResult *result = http_client->load_resource(http_client, path, addr);
   if (!result) {
       printf("Can't load a resource\n");
       exit(EXIT_FAILURE);
