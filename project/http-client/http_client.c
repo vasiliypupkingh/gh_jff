@@ -114,7 +114,7 @@ struct RequestResult* load_resource(struct HTTPClient* http_client, const char *
 
   printf("Request\n%s\n", http_request);
 
-  http_client->conn->loader_send(http_client->conn, http_request, strlen(http_request));
+  http_client->conn->loader_con_send(http_client->conn, http_request, strlen(http_request));
 
 
   char header_buff[response_header_buff_size];
@@ -128,7 +128,7 @@ struct RequestResult* load_resource(struct HTTPClient* http_client, const char *
   const char *end_of_headers;
 
   do {
-      cur_recv = http_client->conn->loader_recv(http_client->conn, header_buff + sum_recv,
+      cur_recv = http_client->conn->loader_con_recv(http_client->conn, header_buff + sum_recv,
                                                 (response_header_buff_size - 1) - sum_recv, false, &timeout);
       sum_recv += cur_recv;
       if (timeout) {
@@ -176,7 +176,7 @@ struct RequestResult* load_resource(struct HTTPClient* http_client, const char *
 
     if (rcv_content_bytes < result->size) {
         timeout = false;
-        ssize_t content_recv = http_client->conn->loader_recv(http_client->conn, result->content + rcv_content_bytes,
+        ssize_t content_recv = http_client->conn->loader_con_recv(http_client->conn, result->content + rcv_content_bytes,
                                                               result->size - rcv_content_bytes, true, &timeout);
 
         if (timeout || content_recv == -1) {

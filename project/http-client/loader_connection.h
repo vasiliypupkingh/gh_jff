@@ -7,10 +7,10 @@
 
 
 struct LoaderConnection {
-  bool (*loader_start)(struct LoaderConnection*);
-  void (*loader_stop)(struct LoaderConnection*);
-  ssize_t(*loader_send)(struct LoaderConnection*, char*, size_t);
-  ssize_t(*loader_recv)(struct LoaderConnection*, char*, size_t, bool, bool*);
+  bool (*loader_con_start)(struct LoaderConnection*);
+  void (*loader_con_stop)(struct LoaderConnection*);
+  ssize_t(*loader_con_send)(struct LoaderConnection*, char*, size_t);
+  ssize_t(*loader_con_recv)(struct LoaderConnection*, char*, size_t, bool, bool*);
 };
 
 #endif

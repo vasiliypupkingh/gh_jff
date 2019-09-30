@@ -13,7 +13,7 @@ static const unsigned int read_timeout_sec = 3;
 
 
 static
-bool tcp_loader_start(struct LoaderConnection* connection){
+bool tcp_loader_con_start(struct LoaderConnection* connection){
   if (!connection) {
       printf("Invalid pointer in start connection\n");
       return false;
@@ -37,7 +37,7 @@ bool tcp_loader_start(struct LoaderConnection* connection){
 
 
 static
-void tcp_loader_stop(struct LoaderConnection* connection) {
+void tcp_loader_con_stop(struct LoaderConnection* connection) {
   if (!connection) {
       printf("Invalid pointer in stop connection\n");
       return;
@@ -50,7 +50,7 @@ void tcp_loader_stop(struct LoaderConnection* connection) {
 
 
 static
-ssize_t(tcp_loader_send)(struct LoaderConnection* connection, char* buff, size_t buff_size) {
+ssize_t(tcp_loader_con_send)(struct LoaderConnection* connection, char* buff, size_t buff_size) {
   if (!connection) {
       printf("Invalid pointer in loader send\n");
       return -1;
@@ -72,7 +72,7 @@ ssize_t(tcp_loader_send)(struct LoaderConnection* connection, char* buff, size_t
 
 
 static
-ssize_t(tcp_loader_recv)(struct LoaderConnection* connection, char* buff, size_t buff_size, bool try_all, bool *timeout) {
+ssize_t(tcp_loader_con_recv)(struct LoaderConnection* connection, char* buff, size_t buff_size, bool try_all, bool *timeout) {
   if (!connection) {
       printf("Invalid pointer in loader recv\n");
       return -1;
@@ -128,10 +128,10 @@ struct LoaderConnection* create_tcp_connection(const char *addr, uint16_t port) 
       return NULL;
     }
 
-  conn->base_conn.loader_start = tcp_loader_start;
-  conn->base_conn.loader_stop = tcp_loader_stop;
-  conn->base_conn.loader_send = tcp_loader_send;
-  conn->base_conn.loader_recv = tcp_loader_recv;
+  conn->base_conn.loader_con_start = tcp_loader_con_start;
+  conn->base_conn.loader_con_stop = tcp_loader_con_stop;
+  conn->base_conn.loader_con_send = tcp_loader_con_send;
+  conn->base_conn.loader_con_recv = tcp_loader_con_recv;
 
   bzero(&conn->serv_addr, sizeof(conn->serv_addr));
   conn->serv_addr.sin_family = AF_INET;
