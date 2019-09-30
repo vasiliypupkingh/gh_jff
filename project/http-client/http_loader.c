@@ -77,6 +77,7 @@ int main(int argc, char *argv[]) {
   printf("Source %s:%d\n", ip_buff, port);
 
   struct LoaderConnection *conn = create_tcp_connection(ip_buff, port);
+
   if (!conn->loader_con_start(conn)) {
       printf("Can't connect to %s:%d\n", ip_buff, port);
       exit(EXIT_FAILURE);

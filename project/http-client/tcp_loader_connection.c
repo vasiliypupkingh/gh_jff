@@ -5,11 +5,21 @@
 #include <strings.h>
 #include <string.h>
 #include <stdlib.h>
+#include <signal.h>
 #include <unistd.h>
 
 #include "tcp_loader_connection.h"
 
 static const unsigned int read_timeout_sec = 3;
+static const unsigned int connect_timeout_sec = 5;
+
+
+static
+void connection_fail(int signum) {
+  (void)signum;
+  printf("Can't connect to server\n");
+  exit(EXIT_FAILURE);
+}
 
 
 static
@@ -18,19 +28,24 @@ bool tcp_loader_con_start(struct LoaderConnection* connection){
       printf("Invalid pointer in start connection\n");
       return false;
     }
+
   struct TcpLoaderConnection *conn = (struct TcpLoaderConnection*)connection;
   conn->sockfd = socket(AF_INET, SOCK_STREAM, 0);
+
   if (conn->sockfd == -1) {
       printf("Socket creation failed\n");
       return false;
     }
 
+  signal(SIGALRM, connection_fail);
+  alarm(connect_timeout_sec);
   if (connect(conn->sockfd, (const struct sockaddr *)(&conn->serv_addr), sizeof(conn->serv_addr))) {
+      alarm(0);
       printf("Can't connect with server\n");
       return false;
-    } else {
-      printf("Connected with server\n");
     }
+    alarm(0);
+    printf("Connected with server\n");
 
   return true;
 }
