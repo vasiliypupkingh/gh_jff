@@ -96,9 +96,14 @@ int main(int argc, char *argv[]) {
     }
 
   write_to_file(result);
+  free_request_result(result);
+  result = NULL;
 
+  destroy_http_client(http_client);
+  http_client = NULL;
   conn->loader_con_stop(conn);
   destroy_tcp_connection(conn);
+  conn = NULL;
 
   free(addr);
   free(path);

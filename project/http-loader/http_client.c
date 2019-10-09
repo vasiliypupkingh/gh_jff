@@ -217,5 +217,7 @@ void free_request_result(struct RequestResult *req_res) {
       free(req_res->content);
     }
 
+  free(req_res);
+
   return;
 }

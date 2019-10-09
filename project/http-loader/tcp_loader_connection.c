@@ -65,7 +65,7 @@ void tcp_loader_con_stop(struct LoaderConnection* connection) {
 
 
 static
-ssize_t(tcp_loader_con_send)(struct LoaderConnection* connection, char* buff, size_t buff_size) {
+ssize_t tcp_loader_con_send(struct LoaderConnection* connection, char* buff, size_t buff_size) {
   if (!connection) {
       printf("Invalid pointer in loader send\n");
       return -1;
@@ -87,7 +87,7 @@ ssize_t(tcp_loader_con_send)(struct LoaderConnection* connection, char* buff, si
 
 
 static
-ssize_t(tcp_loader_con_recv)(struct LoaderConnection* connection, char* buff, size_t buff_size, bool try_all, bool *timeout) {
+ssize_t tcp_loader_con_recv(struct LoaderConnection* connection, char* buff, size_t buff_size, bool try_all, bool *timeout) {
   if (!connection) {
       printf("Invalid pointer in loader recv\n");
       return -1;
